@@ -8,10 +8,11 @@ import { Badge } from "@/components/ui/badge"
 import { Droplets, Wallet, Copy, ExternalLink, CheckCircle, AlertCircle } from "lucide-react"
 import { FaucetResponse } from "@/lib/types"
 import { requestFaucet } from "@/utils/api"
+import { toast } from "sonner"
 
 export default function Component() {
   const [walletAddress, setWalletAddress] = useState('');
-  const [response, setResponse] = useState<FaucetResponse | null>(null);
+  const [response, setResponse] = useState<FaucetResponse |null>(null);
   const [loading, setLoading] = useState(false);
 
   const isValidSuiAddress = (address: string) => /^0x[a-fA-F0-9]{64}$/.test(address);
@@ -30,6 +31,7 @@ export default function Component() {
 
     const result = await requestFaucet(walletAddress);
     setResponse(result);
+    result.status==="success"?toast.success(result.message):toast.error(result.error);
     setLoading(false);
   };
 
@@ -116,7 +118,7 @@ export default function Component() {
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     Requesting Tokens...
                   </div>
-                ) : status === "success" ? (
+                ) : response?.status === "success" ? (
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4" />
                     Tokens Sent!
@@ -124,19 +126,19 @@ export default function Component() {
                 ) : (
                   <div className="flex items-center gap-2">
                     <Droplets className="w-4 h-4" />
-                    Request 10 SUI
+                    Request 0.000001 SUI
                   </div>
                 )}
               </Button>
 
-              {status === "success" && (
+              {response?.status === "success" && (
                 <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500 mt-0.5" />
                     <div>
                       <p className="text-sm font-medium text-green-800">Tokens sent successfully!</p>
                       <p className="text-sm text-green-600 mt-1">
-                        10 SUI tokens have been sent to your wallet. It may take a few moments to appear.
+                        0.000001 SUI tokens have been sent to your wallet. It may take a few moments to appear.
                       </p>
                     </div>
                   </div>
@@ -154,8 +156,8 @@ export default function Component() {
                   Faucet Limits
                 </h3>
                 <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• 10 SUI per request</li>
-                  <li>• 1 request per hour</li>
+                  <li>• 0.000001 SUI per request</li>
+                  <li>• 12 request per hour</li>
                   <li>• Testnet only</li>
                 </ul>
               </CardContent>
@@ -168,9 +170,9 @@ export default function Component() {
                   Useful Links
                 </h3>
                 <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• <a href="#" className="text-blue-600 hover:underline">Sui Explorer</a></li>
-                  <li>• <a href="#" className="text-blue-600 hover:underline">Documentation</a></li>
-                  <li>• <a href="#" className="text-blue-600 hover:underline">Discord Support</a></li>
+                  <li>• <a href="https://suiscan.xyz/testnet/home" className="text-blue-600 hover:underline">Sui Explorer</a></li>
+                  <li>• <a href="https://docs.sui.io/" className="text-blue-600 hover:underline">Documentation</a></li>
+                  <li>• <a href="https://discord.com/invite/sui" className="text-blue-600 hover:underline">Discord Support</a></li>
                 </ul>
               </CardContent>
             </Card>

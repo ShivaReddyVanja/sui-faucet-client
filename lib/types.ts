@@ -5,4 +5,5 @@ export interface FaucetRequest {
 export interface FaucetResponse {
   message?: string;
   error?: string;
+  status?:string
 }
