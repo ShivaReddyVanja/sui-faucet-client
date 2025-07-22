@@ -72,7 +72,7 @@ export default function Component() {
     if (result.status === "success") {
       toast.success(result.message);
       setIsClaimSuccess(true);
-      setNextClaimTimestamp(null); // Reset for success case
+      setNextClaimTimestamp(86400); // Reset for success case
       setIsModalOpen(true); // Open modal on success
     } else if (result.status === "error" && result.nextClaimTimestamp) {
       // toast.error(result.error);

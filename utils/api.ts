@@ -12,6 +12,7 @@ export const requestFaucet = async (walletAddress: string): Promise<FaucetRespon
     return {
       status: "success",
       message: response.data.message,
+      nextClaimTimestamp:86400
     };
   } catch (error: any) {
     if (error.response?.status === 429) {
