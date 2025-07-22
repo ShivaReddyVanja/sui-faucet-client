@@ -1,9 +1,13 @@
-import Component from "./sui-faucet/page";
+import { Suspense } from "react";
+import Component from "./HomePage";
+import SuiLoader from "@/components/SuiLoader";
 
 export default function Home() {
   return (
     <div className="font-sans">
-   <Component/>
+      <Suspense fallback={<SuiLoader/>}>
+        <Component />
+      </Suspense>
     </div>
   );
 }
