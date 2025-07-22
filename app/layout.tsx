@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  icons:"/sui.svg",
   title: "Sui testnet faucet",
-  description: "Get sui testnet faucet smoothly",
+  description: "Request sui testnet tokens, for developers, builders, community members.Most secure Ip gated and wallet based rate limiting.Testnet tokens for everyone.",
 };
 
 export default function RootLayout({

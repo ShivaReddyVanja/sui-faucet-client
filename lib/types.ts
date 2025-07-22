@@ -3,6 +3,7 @@ export interface FaucetRequest {
 }
 
 export interface FaucetResponse {
+  nextClaimTimestamp?:number,
   message?: string;
   error?: string;
   status?:string

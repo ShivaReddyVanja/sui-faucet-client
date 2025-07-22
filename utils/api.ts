@@ -7,16 +7,25 @@ const api = axios.create({
 
 export const requestFaucet = async (walletAddress: string): Promise<FaucetResponse> => {
   try {
-    const response:any = await api.post<FaucetResponse>('/api/faucet', { walletAddress } as FaucetRequest);
+    const response: any = await api.post<FaucetResponse>('/api/faucet', { walletAddress } as FaucetRequest);
     console.log(response);
     return {
-      status:"success",
-      message:response.data.message
+      status: "success",
+      message: response.data.message,
     };
-  } catch (error:any) {
-    return { 
-      error: error.response?.data?.error || 'Too many requests',
-     status:"error"
+  } catch (error: any) {
+    if (error.response?.status === 429) {
+      const retryAfter = error.response.data.retryAfter;
+      const nextClaimTimestamp = retryAfter ? Date.now() + (parseInt(retryAfter) * 1000) : 86400;
+      return {
+        status: "error",
+        error: error.response?.data?.error || 'Failed to request..',
+        nextClaimTimestamp,
+      };
+    }
+    return {
+      status: "error",
+      error: error.response?.data?.error || 'Failed to request..',
     };
   }
 };

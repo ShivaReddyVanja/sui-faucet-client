@@ -1,48 +1,96 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Droplets, Wallet, Copy, ExternalLink, CheckCircle, AlertCircle } from "lucide-react"
+import { Droplets, Wallet, Copy, CheckCircle, AlertCircle, ExternalLink } from "lucide-react"
 import { FaucetResponse } from "@/lib/types"
 import { requestFaucet } from "@/utils/api"
 import { toast } from "sonner"
+import { FaucetModal } from "@/components/FaucetModal"
+import { useSearchParams } from "next/navigation"
 
 export default function Component() {
+  const searchParams = useSearchParams();
   const [walletAddress, setWalletAddress] = useState('');
-  const [response, setResponse] = useState<FaucetResponse |null>(null);
+  const [response, setResponse] = useState<FaucetResponse | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClaimSuccess, setIsClaimSuccess] = useState(false);
+  const [nextClaimTimestamp, setNextClaimTimestamp] = useState<number | null>(null);
 
   const isValidSuiAddress = (address: string) => /^0x[a-fA-F0-9]{64}$/.test(address);
+ 
+  //autofill the wallet address
+  useEffect(() => {
+    const addressParam = searchParams.get("address");
+    if (addressParam) {
+      setWalletAddress(addressParam);
+    }
+    // Check localStorage for last claim time
+    const lastClaimTime = localStorage.getItem("lastClaimTime");
+    if (lastClaimTime) {
+      const timeElapsed = (Date.now() - parseInt(lastClaimTime)) / 1000; // In seconds
+      if (timeElapsed < 86400) { // 86400 seconds = 1 day
+        setNextClaimTimestamp(parseInt(lastClaimTime) + 86400000); // Set next claim time (1 day from last claim)
+      }
+    }
+  }, [searchParams]);
 
-
- const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setResponse(null);
     setLoading(true);
 
     if (!isValidSuiAddress(walletAddress)) {
-      setResponse({ error: 'Invalid Sui wallet address' });
+      setResponse({ error: 'Invalid Sui wallet address', status: "error" });
       setLoading(false);
       return;
+    }
+    
+    // Check if claim is allowed based on last claim time
+    const lastClaimTime = localStorage.getItem("lastClaimTime");
+    if (lastClaimTime) {
+      const timeElapsed = (Date.now() - parseInt(lastClaimTime)) / 1000; // In seconds
+      if (timeElapsed < 86400) { // Less than 1 day
+        setResponse({
+          status: "error",
+          error: `Please wait ${Math.ceil(86400 - timeElapsed)} seconds before claiming again.`,
+          nextClaimTimestamp: parseInt(lastClaimTime) + 86400000, // 1 day in milliseconds
+        });
+        setLoading(false);
+        setIsModalOpen(true);
+        return;
+      }
     }
 
     const result = await requestFaucet(walletAddress);
     setResponse(result);
-    result.status==="success"?toast.success(result.message):toast.error(result.error);
+
+    if (result.status === "success") {
+      toast.success(result.message);
+      setIsClaimSuccess(true);
+      setNextClaimTimestamp(null); // Reset for success case
+      setIsModalOpen(true); // Open modal on success
+    } else if (result.status === "error" && result.nextClaimTimestamp) {
+      // toast.error(result.error);
+      setIsClaimSuccess(false);
+      setNextClaimTimestamp(result.nextClaimTimestamp);
+      setIsModalOpen(true);
+      console.log(isModalOpen,"when triggerd error") // Open modal on rate limit
+    } else {
+      // toast.error(result.error);
+    }
     setLoading(false);
   };
 
-  const isValidAddress = walletAddress.length > 0 && walletAddress.startsWith("0x")
+  const isValidAddress = walletAddress.length > 0 && walletAddress.startsWith("0x");
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
-      {/* Background Pattern */}
-     
       <div className="relative z-10 container mx-auto px-4 py-12">
-        {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="relative">
@@ -65,13 +113,12 @@ export default function Component() {
           </p>
         </div>
 
-        {/* Main Card */}
         <div className="max-w-lg mx-auto">
           <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
             <CardHeader className="text-center pb-6">
               <CardTitle className="text-2xl font-semibold text-gray-800">Request Testnet Tokens</CardTitle>
               <CardDescription className="text-gray-600">
-                Enter your Sui wallet address to receive 10 SUI tokens
+                Enter your Sui wallet address to receive 0.01 SUI tokens
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -126,7 +173,7 @@ export default function Component() {
                 ) : (
                   <div className="flex items-center gap-2">
                     <Droplets className="w-4 h-4" />
-                    Request 0.000001 SUI
+                    Request 0.01 SUI
                   </div>
                 )}
               </Button>
@@ -138,8 +185,18 @@ export default function Component() {
                     <div>
                       <p className="text-sm font-medium text-green-800">Tokens sent successfully!</p>
                       <p className="text-sm text-green-600 mt-1">
-                        0.000001 SUI tokens have been sent to your wallet. It may take a few moments to appear.
+                        0.01 SUI tokens have been sent to your wallet. It may take a few moments to appear.
                       </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {response?.status === "error" && response.error && (
+                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-red-500 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium text-red-800">{response.error}</p>
                     </div>
                   </div>
                 </div>
@@ -147,7 +204,6 @@ export default function Component() {
             </CardContent>
           </Card>
 
-          {/* Info Cards */}
           <div className="grid md:grid-cols-2 gap-4 mt-8">
             <Card className="bg-white/60 backdrop-blur-sm border-0 shadow-md">
               <CardContent className="p-4">
@@ -156,8 +212,8 @@ export default function Component() {
                   Faucet Limits
                 </h3>
                 <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• 0.000001 SUI per request</li>
-                  <li>• 12 request per hour</li>
+                  <li>• 0.01 SUI per request</li>
+                  <li>• 1 request every 12 hrs</li>
                   <li>• Testnet only</li>
                 </ul>
               </CardContent>
@@ -178,12 +234,16 @@ export default function Component() {
             </Card>
           </div>
         </div>
-
-        {/* Footer */}
+        <FaucetModal
+          isOpen={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          isSuccess={isClaimSuccess}
+          nextClaimTimestamp={nextClaimTimestamp}
+        />
         <div className="text-center mt-12 text-sm text-gray-500">
           <p>This faucet provides testnet tokens only. These tokens have no monetary value.</p>
         </div>
       </div>
     </div>
-  )
+  );
 }
