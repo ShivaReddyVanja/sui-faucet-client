@@ -4,15 +4,17 @@ import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { CheckCircle, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 interface FaucetModalProps {
+  tx?:string,
   isOpen: boolean
   onOpenChange: (open: boolean) => void
   isSuccess: boolean
   nextClaimTimestamp: number | null // Unix timestamp in milliseconds
 }
 
-export function FaucetModal({ isOpen, onOpenChange, isSuccess, nextClaimTimestamp }: FaucetModalProps) {
+export function FaucetModal({ isOpen, onOpenChange, isSuccess, nextClaimTimestamp,tx }: FaucetModalProps) {
   const [timeLeft, setTimeLeft] = useState<number>(0)
 
   useEffect(() => {
@@ -55,13 +57,17 @@ export function FaucetModal({ isOpen, onOpenChange, isSuccess, nextClaimTimestam
           <DialogTitle className="text-2xl font-bold">
             {isSuccess ? "Claim Successful!" : "Claim Not Available Yet"}
           </DialogTitle>
-          <DialogDescription className="text-muted-foreground text-base">
+          <DialogDescription className="text-muted-foreground text-base text-center">
             {isSuccess
-              ? "Your SUI tokens have been sent. You can claim again after the timer below."
+              ? "Your SUI tokens have been sent. Check your transaction below"
               : "You have recently claimed. Please wait until the timer below expires before your next claim."}
           </DialogDescription>
         </DialogHeader>
-        <div className="mt-6 text-4xl font-bold text-primary">{formatTime(timeLeft)}</div>
+        {  isSuccess?(
+        <Link href={`https://suiscan.xyz/testnet/tx/${tx}`} className="text-blue-400 hover:underline">
+          View Transaction
+        </Link>) 
+        :(<div className="mt-6 text-4xl font-bold text-primary">{formatTime(timeLeft)}</div>)}
         <div className="mt-6">
           <Button
             onClick={() => onOpenChange(false)}

@@ -1,5 +1,4 @@
 "use client"
-
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,6 +18,7 @@ export default function Component() {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClaimSuccess, setIsClaimSuccess] = useState(false);
+  const [tx,setTx] =useState<string| undefined>(undefined);
   const [nextClaimTimestamp, setNextClaimTimestamp] = useState<number | null>(null);
 
   const isValidSuiAddress = (address: string) => /^0x[a-fA-F0-9]{64}$/.test(address);
@@ -71,7 +71,9 @@ export default function Component() {
 
     if (result.status === "success") {
       toast.success(result.message);
+      
       setIsClaimSuccess(true);
+      setTx(result.tx)
       setNextClaimTimestamp(86400); // Reset for success case
       setIsModalOpen(true); // Open modal on success
     } else if (result.status === "error" && result.nextClaimTimestamp) {
@@ -213,7 +215,7 @@ export default function Component() {
                 </h3>
                 <ul className="text-sm text-gray-600 space-y-1">
                   <li>• 0.01 SUI per request</li>
-                  <li>• 1 request every 12 hrs</li>
+                  <li>• 1 request every 24 hrs</li>
                   <li>• Testnet only</li>
                 </ul>
               </CardContent>
@@ -235,6 +237,7 @@ export default function Component() {
           </div>
         </div>
         <FaucetModal
+          tx={tx}
           isOpen={isModalOpen}
           onOpenChange={setIsModalOpen}
           isSuccess={isClaimSuccess}
