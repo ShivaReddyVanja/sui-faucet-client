@@ -26,7 +26,7 @@ export const requestFaucet = async (walletAddress: string): Promise<FaucetRespon
     }
     return {
       status: "error",
-      error: error.response?.data?.error || 'Failed to request..',
+      error: error.response?.data?.error || 'Server is under maintainance..',
     };
   }
 };
