@@ -15,13 +15,15 @@ export interface TimeseriesResponse {
   data: TimeseriesDataPoint[];
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export async function fetchAnalytics(granularity = "hourly", range = "24h"): Promise<{
   summary: SummaryStats;
   timeseries: TimeseriesResponse;
 }> {
   try {
     // Fetch summary analytics
-    const summaryResponse = await fetch("http://localhost:3000/api/admin/analytics", {
+    const summaryResponse = await fetch(`${apiUrl}/api/admin/analytics`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -34,7 +36,7 @@ export async function fetchAnalytics(granularity = "hourly", range = "24h"): Pro
 
     // Fetch timeseries analytics
     const timeseriesResponse = await fetch(
-      `http://localhost:3000/api/admin/analytics/timeseries?granularity=${granularity}&range=${range}`,
+      `${apiUrl}/api/admin/analytics/timeseries?granularity=${granularity}&range=${range}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
