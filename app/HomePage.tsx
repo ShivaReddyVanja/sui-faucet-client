@@ -10,6 +10,8 @@ import { requestFaucet } from "@/utils/api"
 import { toast } from "sonner"
 import { FaucetModal } from "@/components/FaucetModal"
 import { useSearchParams } from "next/navigation"
+import ConnectButton from "@/components/ConnectButton";
+import { useWallet } from '@suiet/wallet-kit';
 
 export default function Component() {
   const searchParams = useSearchParams();
@@ -20,9 +22,18 @@ export default function Component() {
   const [isClaimSuccess, setIsClaimSuccess] = useState(false);
   const [tx,setTx] =useState<string| undefined>(undefined);
   const [nextClaimTimestamp, setNextClaimTimestamp] = useState<number | null>(null);
+   const { account } = useWallet();
 
   const isValidSuiAddress = (address: string) => /^0x[a-fA-F0-9]{64}$/.test(address);
  
+  useEffect(()=>{
+    if(!account?.address) {
+      setWalletAddress('')
+      return;
+    };
+    setWalletAddress(account?.address)
+  },[account?.address])
+
   //autofill the wallet address
   useEffect(() => {
     const addressParam = searchParams.get("address");
@@ -92,7 +103,9 @@ export default function Component() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
+      <div className="flex justify-end mt-2 mr-2"><ConnectButton /> </div> 
       <div className="relative z-10 container mx-auto px-4 py-12">
+        
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="relative">

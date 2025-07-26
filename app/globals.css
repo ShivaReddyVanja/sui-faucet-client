@@ -3,6 +3,21 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* In your global CSS or component styles */
+.wallet-button-wrapper button {
+  background: linear-gradient(to bottom right, #3b82f6, #14b8a6) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.wallet-button-wrapper button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
