@@ -23,7 +23,7 @@ export async function fetchAnalytics(granularity = "hourly", range = "24h"): Pro
 }> {
   try {
     // Fetch summary analytics
-    const summaryResponse = await fetch(`${apiUrl}/api/admin/analytics`, {
+    const summaryResponse = await fetch(`${apiUrl}api/admin/analytics`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -36,7 +36,7 @@ export async function fetchAnalytics(granularity = "hourly", range = "24h"): Pro
 
     // Fetch timeseries analytics
     const timeseriesResponse = await fetch(
-      `${apiUrl}/api/admin/analytics/timeseries?granularity=${granularity}&range=${range}`,
+      `${apiUrl}api/admin/analytics/timeseries?granularity=${granularity}&range=${range}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
