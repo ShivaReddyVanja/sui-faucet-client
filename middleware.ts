@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
 
   // ✅ Skip protection for /admin/login
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
-    const authToken = request.cookies.get('adminToken');
+     const authToken = request.cookies.get('refreshToken');
 
     if (!authToken) {
       const url = request.nextUrl.clone();
