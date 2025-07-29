@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
+  console.log("Cookies seen in middleware:", request.cookies.get('refreshToken'));
   // ✅ Skip protection for /admin/login
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
      const authToken = request.cookies.get('refreshToken');
