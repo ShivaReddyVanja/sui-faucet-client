@@ -12,16 +12,16 @@ export function RecentRequestsTable({ requests }: RecentRequestsTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="text-sui-aqua whitespace-nowrap">Wallet</TableHead>
-            <TableHead className="text-sui-aqua whitespace-nowrap">IP Address</TableHead>
-            <TableHead className="text-sui-aqua whitespace-nowrap">Status</TableHead>
-            <TableHead className="text-sui-aqua whitespace-nowrap">Transaction Hash</TableHead>
-            <TableHead className="text-sui-aqua whitespace-nowrap">Created At</TableHead>
+            <TableHead className="text-sui-aqua whitespace-nowrap font-semibold">Wallet</TableHead>
+            <TableHead className="text-sui-aqua whitespace-nowrap font-semibold ">IP Address</TableHead>
+            <TableHead className="text-sui-aqua whitespace-nowrap font-semibold">Status</TableHead>
+            <TableHead className="text-sui-aqua whitespace-nowrap font-semibold">Transaction Hash</TableHead>
+            <TableHead className="text-sui-aqua whitespace-nowrap font-semibold">Created At</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {requests.map((request) => (
-            <TableRow key={request.id}>
+            <TableRow key={request.id} className="">
               <TableCell className="text-xs md:text-sm font-mono">
                 {shortenAddress(request.walletAddress)}
               </TableCell>

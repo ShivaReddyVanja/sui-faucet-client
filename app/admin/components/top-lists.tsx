@@ -9,8 +9,8 @@ interface TopListsProps {
 
 export function TopLists({ topWallets, topIps }: TopListsProps) {
   return (
-    <div className="grid gap-6">
-      <Card className="bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-sui-cloud">
+    <div className="flex flex-col space-y-4">
+      <Card className="bg-[#11829]/86 text-white rounded-2xl shadow-xl p-2 ">
         <CardHeader>
           <CardTitle className="text-lg">Top 5 Wallets</CardTitle>
         </CardHeader>
@@ -36,7 +36,7 @@ export function TopLists({ topWallets, topIps }: TopListsProps) {
         </CardContent>
       </Card>
 
-      <Card className="bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-sui-cloud">
+      <Card className="bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl p-2 text-sui-cloud">
         <CardHeader>
           <CardTitle className="text-lg">Top 5 IPs</CardTitle>
         </CardHeader>
@@ -51,7 +51,7 @@ export function TopLists({ topWallets, topIps }: TopListsProps) {
             <TableBody>
               {topIps.map((ip, index) => (
                 <TableRow key={index}>
-                  <TableCell className="font-medium">{ip.ipAddress}</TableCell>
+                  <TableCell className="font-medium">{ip.ipAddress.slice(0,16)}</TableCell>
                   <TableCell className="text-right">{ip._count}</TableCell>
                 </TableRow>
               ))}

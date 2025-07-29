@@ -5,6 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import Image from "next/image" // Import Image component
 
+
 import {
   Sidebar,
   SidebarContent,
@@ -69,6 +70,8 @@ export function SidebarNav() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        
+
       </SidebarContent>
       <SidebarRail /> {/* Add the rail for resizing/toggling [^1] */}
     </Sidebar>

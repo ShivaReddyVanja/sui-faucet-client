@@ -15,7 +15,7 @@ import 'chartjs-adapter-date-fns';
 import { Line } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { fetchAnalytics, TimeseriesResponse } from "@/utils/fetchAnalytics";
+import { fetchAnalytics, TimeseriesResponse } from "@/services/fetchAnalytics";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Tooltip, Legend);
 
@@ -127,8 +127,8 @@ const chartOptions = {
             <SelectValue placeholder="Granularity" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="hourly">Hourly</SelectItem>
             <SelectItem value="daily">Daily</SelectItem>
+            <SelectItem value="hourly">Hourly</SelectItem>
           </SelectContent>
         </Select>
         <Select value={range} onValueChange={setRange}>
@@ -145,7 +145,7 @@ const chartOptions = {
 
       <div className="w-full min-h-[300px]">
       
-        <Line data={chartData} options={chartOptions} />
+        <Line data={chartData} options={chartOptions} className=""/>
       </div>
     </div>
   );

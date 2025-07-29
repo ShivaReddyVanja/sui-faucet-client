@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Droplets, Wallet, Copy, CheckCircle, AlertCircle, ExternalLink } from "lucide-react"
 import { FaucetResponse } from "@/lib/types"
-import { requestFaucet } from "@/utils/api"
+import { requestFaucet } from "@/services/requestFaucet"
 import { toast } from "sonner"
 import { FaucetModal } from "@/components/FaucetModal"
 import { useSearchParams } from "next/navigation"
@@ -40,14 +40,6 @@ export default function Component() {
     if (addressParam) {
       setWalletAddress(addressParam);
     }
-    // Check localStorage for last claim time
-    const lastClaimTime = localStorage.getItem("lastClaimTime");
-    if (lastClaimTime) {
-      const timeElapsed = (Date.now() - parseInt(lastClaimTime)) / 1000; // In seconds
-      if (timeElapsed < 86400) { // 86400 seconds = 1 day
-        setNextClaimTimestamp(parseInt(lastClaimTime) + 86400000); // Set next claim time (1 day from last claim)
-      }
-    }
   }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,21 +53,7 @@ export default function Component() {
       return;
     }
     
-    // Check if claim is allowed based on last claim time
-    const lastClaimTime = localStorage.getItem("lastClaimTime");
-    if (lastClaimTime) {
-      const timeElapsed = (Date.now() - parseInt(lastClaimTime)) / 1000; // In seconds
-      if (timeElapsed < 86400) { // Less than 1 day
-        setResponse({
-          status: "error",
-          error: `Please wait ${Math.ceil(86400 - timeElapsed)} seconds before claiming again.`,
-          nextClaimTimestamp: parseInt(lastClaimTime) + 86400000, // 1 day in milliseconds
-        });
-        setLoading(false);
-        setIsModalOpen(true);
-        return;
-      }
-    }
+   
 
     const result = await requestFaucet(walletAddress);
     setResponse(result);
@@ -103,7 +81,7 @@ export default function Component() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
-      <div className="flex justify-end mt-2 mr-2"><ConnectButton /> </div> 
+    
       <div className="relative z-10 container mx-auto px-4 py-12">
         
         <div className="text-center mb-12">
@@ -138,10 +116,11 @@ export default function Component() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <label htmlFor="wallet" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <Wallet className="w-4 h-4" />
-                  Wallet Address
-                </label>
+                <div className="flex justify-between mt-2 mr-2">
+                  <label htmlFor="wallet" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Wallet className="w-4 h-4" />
+                    Wallet Address
+                  </label><ConnectButton /> </div> 
                 <div className="relative">
                   <Input
                     id="wallet"

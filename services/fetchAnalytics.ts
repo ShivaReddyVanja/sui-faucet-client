@@ -1,4 +1,5 @@
-import { RecentRequest, SummaryStats } from "@/lib/types";
+import {SummaryStats } from "@/lib/types";
+import apiClient from "../utils/api";
 
 // Define types for timeseries data
 export interface TimeseriesDataPoint {
@@ -15,39 +16,19 @@ export interface TimeseriesResponse {
   data: TimeseriesDataPoint[];
 }
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
 export async function fetchAnalytics(granularity = "hourly", range = "24h"): Promise<{
   summary: SummaryStats;
   timeseries: TimeseriesResponse;
 }> {
   try {
-    // Fetch summary analytics
-    const summaryResponse = await fetch(`${apiUrl}api/admin/analytics`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
+    // Much cleaner with the API client
+    const [summaryResponse, timeseriesResponse] = await Promise.all([
+      apiClient.get('/admin/analytics'),
+      apiClient.get(`/admin/analytics/timeseries?granularity=${granularity}&range=${range}`)
+    ]);
 
-    if (!summaryResponse.ok) {
-      throw new Error("Failed to fetch summary analytics");
-    }
-
-    const summaryData = await summaryResponse.json();
-
-    // Fetch timeseries analytics
-    const timeseriesResponse = await fetch(
-      `${apiUrl}api/admin/analytics/timeseries?granularity=${granularity}&range=${range}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-
-    if (!timeseriesResponse.ok) {
-      throw new Error("Failed to fetch timeseries analytics");
-    }
-
-    const timeseriesData = await timeseriesResponse.json();
+    const summaryData = summaryResponse.data;
+    const timeseriesData = timeseriesResponse.data;
 
     return {
       summary: {
@@ -60,8 +41,6 @@ export async function fetchAnalytics(granularity = "hourly", range = "24h"): Pro
         topIps: summaryData.topIps,
       },
       timeseries: timeseriesData,
-      
-     
     };
   } catch (err) {
     console.error("Error fetching analytics:", err);

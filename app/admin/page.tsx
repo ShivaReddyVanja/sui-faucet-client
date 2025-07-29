@@ -5,7 +5,8 @@ import { ActivityChart } from "./components/activity-chart";
 import { TopLists } from "./components/top-lists";
 import { RecentRequestsTable } from "./components/recent-requests";
 import { useEffect, useState } from "react";
-import { fetchAnalytics, SummaryStats, TimeseriesResponse } from "@/utils/fetchAnalytics";
+import { fetchAnalytics, SummaryStats, TimeseriesResponse } from "@/services/fetchAnalytics";
+
 
 export default function DashboardOverviewPage() {
   const [data, setData] = useState<{
@@ -42,7 +43,7 @@ export default function DashboardOverviewPage() {
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-        <Card className="bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-sui-cloud">
+        <Card className="bg-[#011829]/86 text-white rounded-2xl shadow-xl p-6 ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Requests</CardTitle>
             <Wallet className="h-4 w-4 text-sui-aqua" />
@@ -52,7 +53,7 @@ export default function DashboardOverviewPage() {
             <p className="text-xs text-sui-aqua">+20.1% from last month</p>
           </CardContent>
         </Card>
-        <Card className="bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-sui-cloud">
+        <Card className="bg-[#011829]/86 text-white rounded-2xl shadow-xl p-6 ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Successful Requests</CardTitle>
             <CheckCircle className="h-4 w-4 text-sui-aqua" />
@@ -62,7 +63,7 @@ export default function DashboardOverviewPage() {
             <p className="text-xs text-sui-aqua">+18.5% from last month</p>
           </CardContent>
         </Card>
-        <Card className="bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-sui-cloud">
+        <Card className="bg-[#011829]/86 text-white rounded-2xl shadow-xl p-6 ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Failed Requests</CardTitle>
             <XCircle className="h-4 w-4 text-sui-aqua" />
@@ -72,7 +73,7 @@ export default function DashboardOverviewPage() {
             <p className="text-xs text-sui-aqua">+5.2% from last month</p>
           </CardContent>
         </Card>
-        <Card className="bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-sui-cloud">
+        <Card className="bg-[#011829]/86 text-white rounded-2xl shadow-xl p-6">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Tokens Sent (SUI)</CardTitle>
             <DollarSign className="h-4 w-4 text-sui-aqua" />
@@ -85,7 +86,7 @@ export default function DashboardOverviewPage() {
       </div>
 
       <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-        <Card className="xl:col-span-2 bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-sui-cloud">
+        <Card className="xl:col-span-2 font-semibold rounded-2xl shadow-xl p-6 ">
           <CardHeader>
             <CardTitle>Activity Over Time</CardTitle>
           </CardHeader>
@@ -93,21 +94,21 @@ export default function DashboardOverviewPage() {
             <ActivityChart timeseries={data.timeseries} />
           </CardContent>
         </Card>
-        <Card className="bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-sui-cloud">
+        <Card className="bg-[#011829]/86 text-white  rounded-2xl shadow-xl overflow-clip">
           <CardHeader>
             <CardTitle>Top Wallets & IPs</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2">
             <TopLists topWallets={topWallets} topIps={topIps} />
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-sui-cloud">
-        <CardHeader>
-          <CardTitle>Recent Requests</CardTitle>
+      <Card className="bg-[#011829]/86 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-white">
+        <CardHeader className="py-0">
+          <CardTitle className="text-2xl">Recent Requests</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="bg-white rounded-2xl text-black p-0">
           <RecentRequestsTable requests={recentRequests} />
         </CardContent>
       </Card>

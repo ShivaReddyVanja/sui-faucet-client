@@ -5,6 +5,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { CheckCircle, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { FaExternalLinkAlt } from "react-icons/fa";
+import Lottie from "lottie-react";
+import Drop from "@/public/lottie/drop.json";
+import Panda from "@/public/lottie/sleeping-panda.json"
 
 interface FaucetModalProps {
   tx?:string,
@@ -47,31 +51,45 @@ export function FaucetModal({ isOpen, onOpenChange, isSuccess, nextClaimTimestam
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] rounded-lg p-6 text-center">
+      <DialogContent className="sm:max-w-[400px]  rounded-lg pt-10 text-center">
         <DialogHeader className="flex flex-col items-center space-y-4">
-          {isSuccess ? (
-            <CheckCircle className="h-16 w-16 text-green-500" />
-          ) : (
-            <Clock className="h-16 w-16 text-yellow-500" />
-          )}
           <DialogTitle className="text-2xl font-bold">
-            {isSuccess ? "Claim Successful!" : "Claim Not Available Yet"}
+            {isSuccess ? <span className="flex items-center text-2xl">
+            <CheckCircle className="text-green-500 mr-1"/>Claim Successful!</span>:
+             "Claim Not Available Yet"
+             }
           </DialogTitle>
-          <DialogDescription className="text-muted-foreground text-base text-center">
+          {isSuccess ? (
+            // 
+            <Lottie
+        animationData={Drop}
+        loop={true}
+        autoplay={true}
+        style={{ width: 100, height: 100 }}
+      />
+          ) : (
+            <Lottie
+        animationData={Panda}
+        loop={true}
+        autoplay={true}
+        style={{ width: 200, height: 100 }}
+      />
+          )}
+          <DialogDescription className="font-semibold text-base text-center">
             {isSuccess
-              ? "Your SUI tokens have been sent. Check your transaction below"
-              : "You have recently claimed. Please wait until the timer below expires before your next claim."}
+              ? "Your SUI tokens have been sent"
+              : "You are trying to claim early, please wait for the timer to finish !"}
           </DialogDescription>
         </DialogHeader>
         {  isSuccess?(
-        <Link href={`https://suiscan.xyz/testnet/tx/${tx}`} className="text-blue-400 hover:underline">
-          View Transaction
+        <Link href={`https://suiscan.xyz/testnet/tx/${tx}`} className="text-blue-700 font-semibold hover:underline flex items-center justify-center ">
+          View Transaction <FaExternalLinkAlt className="ml-2"/>
         </Link>) 
-        :(<div className="mt-6 text-4xl font-bold text-primary">{formatTime(timeLeft)}</div>)}
-        <div className="mt-6">
+        :(<div className="mt-4 text-4xl font-bold text-primary">{formatTime(timeLeft)}</div>)}
+        <div>
           <Button
             onClick={() => onOpenChange(false)}
-            className="w-full bg-gradient-to-r from-blue-400 to-teal-400 text-white hover:from-blue-500 hover:to-teal-500"
+            className="w-1/2 bg-gradient-to-r from-blue-400 to-teal-400 text-white hover:from-blue-500 hover:to-teal-500"
           >
             Close
           </Button>
