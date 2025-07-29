@@ -10,7 +10,7 @@ interface TopListsProps {
 export function TopLists({ topWallets, topIps }: TopListsProps) {
   return (
     <div className="flex flex-col space-y-4">
-      <Card className="bg-[#11829]/86 text-white rounded-2xl shadow-xl p-2 ">
+      <Card className=" text-black rounded-2xl shadow-xl p-2 ">
         <CardHeader>
           <CardTitle className="text-lg">Top 5 Wallets</CardTitle>
         </CardHeader>

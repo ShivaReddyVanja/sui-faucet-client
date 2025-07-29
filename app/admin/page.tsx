@@ -94,7 +94,7 @@ export default function DashboardOverviewPage() {
             <ActivityChart timeseries={data.timeseries} />
           </CardContent>
         </Card>
-        <Card className="bg-[#011829]/86 text-white  rounded-2xl shadow-xl overflow-clip">
+        <Card className="bg-white text-black  rounded-2xl shadow-xl overflow-clip">
           <CardHeader>
             <CardTitle>Top Wallets & IPs</CardTitle>
           </CardHeader>
@@ -104,7 +104,7 @@ export default function DashboardOverviewPage() {
         </Card>
       </div>
 
-      <Card className="bg-[#011829]/86 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-white">
+      <Card className="text-black backdrop-blur-lg rounded-2xl shadow-xl p-6 bg-white">
         <CardHeader className="py-0">
           <CardTitle className="text-2xl">Recent Requests</CardTitle>
         </CardHeader>
