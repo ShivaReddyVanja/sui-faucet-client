@@ -12,6 +12,7 @@ import { FaucetModal } from "@/components/FaucetModal"
 import { useSearchParams } from "next/navigation"
 import ConnectButton from "@/components/ConnectButton";
 import { useWallet } from '@suiet/wallet-kit';
+import { FaExternalLinkAlt } from "react-icons/fa"
 
 export default function Component() {
   const searchParams = useSearchParams();
@@ -220,7 +221,7 @@ export default function Component() {
                   Useful Links
                 </h3>
                 <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• <a href="https://suiscan.xyz/testnet/home" className="text-blue-600 hover:underline">Sui Explorer</a></li>
+                  <li className="flex ">• <a href="https://suiscan.xyz/testnet/home" className="ml-0.5 text-blue-600 hover:underline flex items-center ">Sui Explorer<FaExternalLinkAlt className="text-xs ml-2"/></a></li>
                   <li>• <a href="https://docs.sui.io/" className="text-blue-600 hover:underline">Documentation</a></li>
                   <li>• <a href="https://discord.com/invite/sui" className="text-blue-600 hover:underline">Discord Support</a></li>
                 </ul>
