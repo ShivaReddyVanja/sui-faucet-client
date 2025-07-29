@@ -39,8 +39,8 @@ export function SidebarNav() {
     <Sidebar collapsible="icon" variant="sidebar">
       {" "}
       {/* Using 'icon' collapsible variant [^1] */}
-      <SidebarHeader className="flex items-center justify-center p-4 bg-sui-ocean text-sui-cloud">
-        <Link href="/admin" className="flex items-center gap-2 font-semibold">
+      <SidebarHeader className="flex justify-center pt-4 bg-sui-ocean text-sui-cloud">
+        <Link href="/admin" className="flex items-center justify-start gap-2 font-semibold">
           {/* Replaced Package2 icon with SUI logo */}
           <Image
             src="/sui.svg"
@@ -49,7 +49,7 @@ export function SidebarNav() {
             height={32} // Adjust size as needed
             className="h-8 w-8"
           />
-          <span className="group-data-[collapsible=icon]:hidden">SUI Faucet Admin</span>
+          <span className="group-data-[collapsible=icon]:hidden ">Suicet Admin</span>
         </Link>
       </SidebarHeader>
       <SidebarContent className="bg-sui-ocean text-sui-cloud">

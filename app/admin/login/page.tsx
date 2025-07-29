@@ -135,8 +135,6 @@ function LoginContent() {
                     </div>
                   )}
                 </Button>
-
-
             </div>
           )}
 
@@ -146,7 +144,7 @@ function LoginContent() {
             </div>
           )}
 
-          <div className="text-center text-xs text-gray-500 space-y-2">
+          <div className="text-center text-xs text-gray-700 space-y-2">
             <p>
               By signing in, you agree to sign a message to verify your wallet ownership.
             </p>
