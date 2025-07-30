@@ -51,7 +51,7 @@ export function FaucetModal({ isOpen, onOpenChange, isSuccess, nextClaimTimestam
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[400px]  rounded-lg pt-10 text-center">
+      <DialogContent className="sm:max-w-[400px]  rounded-lg pt-6 text-center px-2">
         <DialogHeader className="flex flex-col items-center space-y-4">
           <DialogTitle className="text-2xl font-bold">
             {isSuccess ? <span className="flex items-center text-2xl">

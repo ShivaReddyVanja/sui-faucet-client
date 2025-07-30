@@ -5,9 +5,10 @@ const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-export const requestFaucet = async (walletAddress: string): Promise<FaucetResponse> => {
+export const requestFaucet = async (walletAddress: string,token:string): Promise<FaucetResponse> => {
   try {
-    const response: any = await api.post<FaucetResponse>('/faucet', { walletAddress } as FaucetRequest);
+    const response: any = await api.post<FaucetResponse>('/faucet',
+    { walletAddress , cfTurnstileToken: token } as FaucetRequest);
     console.log(response);
     return {
       status: "success",
