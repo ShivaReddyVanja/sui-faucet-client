@@ -88,7 +88,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { connected, account, signMessage, disconnect } = useWallet();
+  const { connected, account, signPersonalMessage, disconnect } = useWallet();
 
   const isAuthenticated = !!user && connected;
 
@@ -106,12 +106,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const message = generateLoginMessage(account.address);
       
       // Sign the message
-      const signature = await signMessage({
-        message: new TextEncoder().encode(message),
+      const messageBytes = new TextEncoder().encode(message);
+      const signed = await signPersonalMessage({
+        message: messageBytes,
       });
 
-      if (!signature) {
-        throw new Error('Failed to sign message');
+      if (!signed?.signature || !signed?.bytes) {
+        throw new Error('Failed to sign message - missing signature or bytes');
       }
 
       // Send login request
@@ -120,7 +121,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         {
           walletAddress: account.address,
           message,
-          signature: signature.signature,
+          signature: signed.signature,
+          signedBytes: signed.bytes,
         },
         { withCredentials: true }
       );

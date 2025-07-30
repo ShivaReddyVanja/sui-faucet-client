@@ -39,10 +39,7 @@ function LoginContent() {
         throw new Error('Failed to sign message - missing signature or bytes');
       }
 
-      // ❌ WRONG: Don't convert original messageBytes
-      // const base64SignedBytes = toBase64(messageBytes);
 
-      // ✅ CORRECT: Use the bytes returned from the wallet
       const signedBytes = signed.bytes; // This is already base64
 
       const response = await axios.post(`${apiUrl}/admin/login`, {
@@ -54,12 +51,11 @@ function LoginContent() {
         withCredentials: true,
       });
       const { accessToken } = response.data;
-      // Debug: Check if cookies were set
-      console.log('Response headers:', response.headers);
-      console.log('Document cookies:', document.cookie);
-      localStorage.setItem('adminToken', accessToken);
+  
+      localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('walletAddress', account.address);
-      router.push('/admin');
+      
+      router.push("/admin");
     } catch (err: any) {
       const message =
         err?.response?.data?.error || err.message || 'Login failed. Please try again.';

@@ -13,7 +13,7 @@ let refreshPromise: Promise<string> | null = null;
 
 // Request interceptor to add auth token
 apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('adminToken');
+  const token = localStorage.getItem('accessToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -27,7 +27,7 @@ apiClient.interceptors.response.use(
     const originalRequest = error.config;
     
     // Check if error is 401 and we haven't already tried to refresh
-    if (error.response?.status === 403 && !originalRequest._retry) {
+    if ((error.response?.status === 401 || error.response?.status===403)  && !originalRequest._retry) {
       originalRequest._retry = true;
       
       // If already refreshing, wait for the existing refresh
@@ -70,7 +70,7 @@ async function handleTokenRefresh(): Promise<string> {
     const { accessToken, user } = refreshResponse;
     
     // Update stored token and user info
-    localStorage.setItem('adminToken', accessToken);
+    localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('walletAddress', user.walletAddress);
     
     console.log('Token refreshed successfully');

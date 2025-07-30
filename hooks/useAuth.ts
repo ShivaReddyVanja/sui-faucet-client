@@ -12,7 +12,7 @@ export function useAuth() {
       const result = await refreshAccessToken();
       
       // Update stored tokens
-      localStorage.setItem('adminToken', result.accessToken);
+      localStorage.setItem('accessToken', result.accessToken);
       localStorage.setItem('walletAddress', result.user.walletAddress);
       
       toast.success('Session refreshed successfully');
@@ -23,7 +23,7 @@ export function useAuth() {
       });
       
       // Clear tokens and redirect
-      localStorage.removeItem('adminToken');
+      localStorage.removeItem('accessToken');
       localStorage.removeItem('walletAddress');
       window.location.href = '/admin/login';
       
@@ -34,13 +34,13 @@ export function useAuth() {
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem('adminToken');
+    localStorage.removeItem('accessToken');
     localStorage.removeItem('walletAddress');
     window.location.href = '/admin/login';
   }, []);
 
   const isAuthenticated = useCallback(() => {
-    return !!localStorage.getItem('adminToken');
+    return !!localStorage.getItem('accessToken');
   }, []);
 
   return {

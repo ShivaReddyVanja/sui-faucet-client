@@ -36,12 +36,13 @@ export async function updateFaucetConfig(configData: FaucetConfigUpdate): Promis
 export async function getFaucetConfig(): Promise<{
   success: boolean;
   config: {
-    tokenAmount: number;
-    cooldownPeriod: number;
-    maxRequestsPerWallet: number;
-    isActive: boolean;
-    maxRequestsPerIP: number;
-  };
+  availableBalance:number,
+  cooldownSeconds: number;
+  faucetAmount: number;
+  enabled: boolean;
+  maxRequestsPerIp: number;
+  maxRequestsPerWallet: number;
+};
 }> {
   try {
     const response = await apiClient.get('/admin/config');

@@ -81,3 +81,11 @@ export interface SummaryStats {
   topWallets: TopWallet[];
   topIps: TopIp[];
 }
+export interface Config {
+  availableBalance:number,
+  cooldownSeconds: number;
+  faucetAmount: number;
+  enabled: boolean;
+  maxRequestsPerIp: number;
+  maxRequestsPerWallet: number;
+}

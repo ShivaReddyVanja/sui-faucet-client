@@ -13,11 +13,10 @@ import { updateFaucetConfig, getFaucetConfig, FaucetConfigUpdate } from '@/servi
 
 export default function FaucetConfigPage() {
   const [isEnabled, setIsEnabled] = useState(true)
-  const [faucetAmount, setFaucetAmount] = useState("0.01")
-  const [cooldownPeriod, setCooldownPeriod] = useState("60")
-  const [maxRequestsPerIp, setMaxRequestsPerIp] = useState("5")
-  const [maxRequestsPerWallet, setMaxRequestsPerWallet] = useState("1")
-  
+  const [faucetAmount, setFaucetAmount] = useState(0.01)
+  const [cooldownPeriod, setCooldownPeriod] = useState(60)
+  const [maxRequestsPerIp, setMaxRequestsPerIp] = useState(5)
+  const [maxRequestsPerWallet, setMaxRequestsPerWallet] = useState(1)
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
 
@@ -34,11 +33,11 @@ export default function FaucetConfigPage() {
         const config = result.config
         
         // Map backend config to frontend state
-        setIsEnabled(config.isActive)
-        setFaucetAmount(config.tokenAmount.toString())
-        setCooldownPeriod(config.cooldownPeriod.toString())
-        setMaxRequestsPerIp(config.maxRequestsPerIP.toString())
-        setMaxRequestsPerWallet(config.maxRequestsPerWallet.toString())
+        setIsEnabled(config.enabled)
+        setFaucetAmount(config.faucetAmount)
+        setCooldownPeriod(config.cooldownSeconds)
+        setMaxRequestsPerIp(config.maxRequestsPerIp)
+        setMaxRequestsPerWallet(config.maxRequestsPerWallet)
         
         console.log('Loaded config:', config)
       }
@@ -57,10 +56,10 @@ export default function FaucetConfigPage() {
     
     try {
       const configUpdate: FaucetConfigUpdate = {
-        faucetAmount: Number.parseFloat(faucetAmount),
-        cooldownSeconds: Number.parseInt(cooldownPeriod),
-        maxRequestsPerIp: Number.parseInt(maxRequestsPerIp),
-        maxRequestsPerWallet: Number.parseInt(maxRequestsPerWallet), 
+        faucetAmount: faucetAmount,
+        cooldownSeconds: cooldownPeriod,
+        maxRequestsPerIp: maxRequestsPerIp,
+        maxRequestsPerWallet:maxRequestsPerWallet, 
         enabled: isEnabled,
       }
       console.log(faucetAmount,"while saving")
@@ -110,9 +109,9 @@ export default function FaucetConfigPage() {
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-      <Card className="max-w-2xl mx-auto w-full bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl p-6 text-sui-cloud">
+      <Card className="max-w-2xl mx-auto w-full bg-sui-cloud/10 backdrop-blur-lg rounded-2xl shadow-xl lg:p-6 text-sui-cloud">
         <CardHeader>
-          <CardTitle className="flex items-center justify-between">
+          <CardTitle className="flex items-center justify-between text-sm lg:text-base">
             Faucet Configuration
             <Button
               variant="outline"
@@ -125,12 +124,12 @@ export default function FaucetConfigPage() {
               Refresh
             </Button>
           </CardTitle>
-          <CardDescription className="text-sui-aqua">
+          <CardDescription className="text-sui-aqua text-xs lg:text-sm">
             Manage the operational settings of your SUI Faucet.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-6">
-          <div className="flex items-center justify-between space-x-2">
+          <div className="flex items-center justify-between space-x-2 text-xs">
             <Label htmlFor="enabled">Faucet Enabled</Label>
             <Switch 
               id="enabled" 
@@ -147,7 +146,7 @@ export default function FaucetConfigPage() {
               step="0.1"
               min="0"
               value={faucetAmount}
-              onChange={(e) => setFaucetAmount(e.target.value)}
+              onChange={(e) => setFaucetAmount(Number(e.target.value))}
               disabled={isSaving}
               className="bg-sui-cloud/20 border-sui-aqua text-sui-cloud placeholder:text-sui-aqua/70"
             />
@@ -159,7 +158,7 @@ export default function FaucetConfigPage() {
               type="number"
               min="1"
               value={cooldownPeriod}
-              onChange={(e) => setCooldownPeriod(e.target.value)}
+              onChange={(e) => setCooldownPeriod(Number(e.target.value))}
               disabled={isSaving}
               className="bg-sui-cloud/20 border-sui-aqua text-sui-cloud placeholder:text-sui-aqua/70"
             />
@@ -171,7 +170,7 @@ export default function FaucetConfigPage() {
               type="number"
               min="1"
               value={maxRequestsPerIp}
-              onChange={(e) => setMaxRequestsPerIp(e.target.value)}
+              onChange={(e) => setMaxRequestsPerIp(Number(e.target.value))}
               disabled={isSaving}
               className="bg-sui-cloud/20 border-sui-aqua text-sui-cloud placeholder:text-sui-aqua/70"
             />
@@ -183,7 +182,7 @@ export default function FaucetConfigPage() {
               type="number"
               min="1"
               value={maxRequestsPerWallet}
-              onChange={(e) => setMaxRequestsPerWallet(e.target.value)}
+              onChange={(e) => setMaxRequestsPerWallet(Number(e.target.value))}
               disabled={isSaving}
               className="bg-sui-cloud/20 border-sui-aqua text-sui-cloud placeholder:text-sui-aqua/70"
             />
@@ -193,7 +192,7 @@ export default function FaucetConfigPage() {
           <Button 
             onClick={handleSave} 
             disabled={isSaving}
-            className="bg-sui-sea text-sui-cloud hover:bg-sui-sea/90 transition-colors w-full"
+            className="bg-black text-white  hover:bg-sui-sea/90 transition-colors w-full"
           >
             {isSaving ? (
               <>
