@@ -17,6 +17,30 @@
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
+/* styles.css or in your component's CSS module */
+.faucet-button {
+  background-color: #2B7FFF;
+  color: white;
+  min-width: 120px;
+  max-width: 200px;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.faucet-button:hover {
+  background-color: #1e40af; /* Tailwind blue-700 */
+}
+
+.faucet-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 
 @theme inline {
   --color-background: var(--background);

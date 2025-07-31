@@ -37,7 +37,7 @@ export default function StyledConnectButton() {
         onClick={handleClick}
         disabled={connecting}
         style={{
-          background: 'linear-gradient(to bottom right, #3b82f6, #14b8a6)',
+          background: '#2B7FFF',
           border: 'none',
           color: 'white',
           minWidth: '120px',

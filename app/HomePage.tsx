@@ -30,6 +30,8 @@ import { FaucetModal } from "@/components/FaucetModal";
 import { useSearchParams } from "next/navigation";
 import ConnectButton from "@/components/ConnectButton";
 import { useWallet } from "@suiet/wallet-kit";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Component() {
   const searchParams = useSearchParams();
@@ -76,7 +78,7 @@ export default function Component() {
     e.preventDefault();
     setLoading(true);
     setResponse(null);
-   
+
     if (!isValidSuiAddress(walletAddress)) {
       setResponse({ error: "Invalid Sui wallet address", status: "error" });
       setLoading(false);
@@ -102,50 +104,40 @@ export default function Component() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
-      <div className="relative z-10 container mx-auto px-4 py-12">
-
+    <div className="min-h-screen bg-[linear-gradient(135deg,_#EFF6FF_0%,_#ECFEFF_50%,_#F0FDFA_100%)] font-['Inter_Tight'] h-full">
+      <div className="relative z-10 container mx-auto px-4 py-12 h-full flex-1">
+           <div className="absolute inset-0 bg-[url('/Vector.png')] bg-cover bg-center opacity-6 max-w-2xl min-h-full mx-auto -rotate-3 "></div>
+      <div className="">
+  
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg">
-                <Droplets className="w-8 h-8 text-white" />
-              </div>
-              <div className="absolute -top-1 -right-1">
-                <Badge variant="secondary" className="bg-orange-100 text-orange-700 text-xs px-2 py-1">
-                  Testnet
-                </Badge>
-              </div>
+            <div className="font-['Inter_Tight']">
+              <span className="flex items-center gap-4">
+                <Image src={"Group.svg"} width={120} height={40} alt="Sui text" />
+                <span className="bg-[#030F1C] text-white rounded-lg px-2 py-1 text-2xl font-['Inter_Tight']">Testnet Faucet</span>
+              </span>
             </div>
+
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 bg-clip-text text-transparent mb-4">
-            Sui Testnet Faucet
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[15px] text-gray-600 max-w-xl mx-auto leading-relaxed font-['Inter_Tight']">
             Get free SUI tokens for testing and development on the Sui testnet. Simply enter your wallet address below to receive testnet tokens.
           </p>
-          <p className="text-lg font-medium">
-                  Available Faucet:{" "}
-                  <span className="font-normal text-gray-700">
-                    {config ? config.availableBalance.toFixed(2) : "..."}
-                  </span>{" "}
-                  SUI
-                </p>
+         
         </div>
 
         {/* Faucet Card */}
         <div className="max-w-lg mx-auto">
-          <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
-            <CardHeader className="text-center pb-6">
-              <div className="flex justify-end items-end">
-                
+          <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm pt-0">
+            <CardHeader className="text-center pb-6 p-2">
+              <div className="flex justify-end items-end mb-6">
+
                 <ConnectButton />
               </div>
-              <CardTitle className="text-2xl font-semibold text-gray-800">
+              <CardTitle className="text-2xl font-semibold text-gray-800 font-['Inter_Tight']">
                 Request Testnet Tokens
               </CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardDescription className="text-gray-600 text-sm">
                 Enter your Sui wallet address to receive {config?.faucetAmount ?? "..."} SUI tokens
               </CardDescription>
             </CardHeader>
@@ -157,7 +149,7 @@ export default function Component() {
                   <Wallet className="w-4 h-4" />
                   Wallet Address
                 </label>
-                <div className="relative">
+                <div className="relative mb-10">
                   <Input
                     id="wallet"
                     type="text"
@@ -166,7 +158,7 @@ export default function Component() {
                     onChange={(e) => setWalletAddress(e.target.value)}
                     className="pl-4 pr-12 h-12 text-sm font-mono border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                   />
-                 
+
                   {walletAddress && (
                     <Button
                       variant="ghost"
@@ -177,10 +169,10 @@ export default function Component() {
                       <Copy className="w-4 h-4" />
                     </Button>
                   )}
-                  
+
                 </div>
-               
-               
+
+
                 {walletAddress && !isValidAddress && (
                   <p className="text-sm text-red-500 flex items-center gap-1">
                     <AlertCircle className="w-4 h-4" />
@@ -188,12 +180,19 @@ export default function Component() {
                   </p>
                 )}
               </div>
-
+                    <p className="text-center font-medium text-[15px]">
+            Available Faucet:{" "}
+            <span className="font-normal text-blue-700">
+              {config ? config.availableBalance.toFixed(2) : "..."}
+            </span>{" "}
+            SUI
+          </p>
               {/* Submit Button */}
               <Button
                 onClick={handleSubmit}
                 disabled={!isValidAddress || loading}
-                className="w-full h-12 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-medium text-base shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full h-[47.12px] bg-[#2B7FFF] hover:bg-blue-700 text-white font-medium text-[15.7px] 
+                shadow-[0px_9.81px_14.72px_-2.94px_rgba(0,0,0,0.1),_0px_3.92px_5.88px_-3.92px_rgba(0,0,0,0.1)] rounded-[7.85px] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <div className="flex items-center gap-2">
@@ -212,6 +211,10 @@ export default function Component() {
                   </div>
                 )}
               </Button>
+              <div className="flex justify-center text-[#4A5565] text-sm gap-2" >
+                <p>{config?.faucetAmount ?? "..."} SUI per request</p>
+                <p>{config?.maxRequestsPerWallet ?? "..."} request per {(config?.cooldownSeconds ? (config.cooldownSeconds / 3600).toFixed(0) : '24')} hrs</p>
+              </div>
 
               {/* Response Message */}
               {response?.status === "success" && (
@@ -240,35 +243,6 @@ export default function Component() {
             </CardContent>
           </Card>
 
-          {/* Info Cards */}
-          <div className="grid md:grid-cols-2 gap-4 mt-8">
-            <Card className="bg-white/60 backdrop-blur-sm border-0 shadow-md">
-              <CardContent className="p-4">
-                <h3 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                  <Droplets className="w-4 h-4 text-blue-500" />
-                  Faucet Limits
-                </h3>
-                <ul className="text-sm text-gray-600 space-y-1">
-                  <li >• {config?.faucetAmount ?? "..."} SUI per request</li>
-                  <li>• {config?.maxRequestsPerWallet ?? "..."} request per {(config?.cooldownSeconds ? (config.cooldownSeconds / 3600).toFixed(0) : '24')} hrs</li>
-                  <li>• Testnet only</li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card className="bg-white/60 backdrop-blur-sm border-0 shadow-md">
-              <CardContent className="p-4">
-                <h3 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                  <ExternalLink className="w-4 h-4 text-teal-500" />
-                  Useful Links
-                </h3>
-                <ul className="text-sm text-gray-600 space-y-1">
-                  <li className="flex">• <a href="https://suiscan.xyz/testnet/home" className="text-blue-600 hover:underline flex items-center ml-1">Sui Explorer <FaExternalLinkAlt className="text-xs ml-1" /></a></li>
-                  <li>• <a href="https://docs.sui.io/" className="text-blue-600 hover:underline">Documentation</a></li>
-                  <li>• <a href="https://discord.com/invite/sui" className="text-blue-600 hover:underline">Discord Support</a></li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
         </div>
 
         {/* Footer Notice */}
@@ -279,75 +253,59 @@ export default function Component() {
           isSuccess={isClaimSuccess}
           nextClaimTimestamp={nextClaimTimestamp}
         />
-        <div className="text-center mt-12 text-sm text-gray-500">
+        <div className="text-center mt-12 text-xs text-gray-500">
           <p>This faucet provides testnet tokens only. These tokens have no monetary value.</p>
+        </div>
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="relative mt-16 border-t border-blue-100">
-        <div className="bg-[#011829] backdrop">
+      <footer className="relative  border-t border-blue-100">
+        <div className="bg-[#011829]">
           <div className="container mx-auto px-4 py-8">
             <div className="flex flex-col items-center space-y-6">
-              {/* Logo and description */}
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center shadow-md">
-                  <Droplets className="w-5 h-5 text-white" />
+  
+              <div className="flex justify-evenly w-full ">
+
+                <div className="gap-2 flex flex-col items-start">
+                  <span className="flex items-center">
+                    <Image src={"/sui-white.png"} width={100} height={30} alt="sui" />
+                    <span className="bg-[#030F1C] border border-[#C0E6FF]  text-[#C0E6FF] rounded-lg px-2 h-fit text-xl">Testnet Faucet</span>
+                  </span>
+                  <p className="text-[#C0E6FF]"> Reach out for custom built dapps on our socials</p>
+                  <span className="flex text-[#C0E6FF] text-xl space-x-4">
+
+                   <Link href={"https://github.com/shivareddyVanja/"}> <FaDiscord /></Link> 
+                    <Link href="https://x.com/0xtitan__"><FaXTwitter /></Link>
+                   <Link href="https://discord.com/0xtitan__"> <FaGithub /></Link> 
+                  </span>
                 </div>
-                <p className="text-gray-600 text-center max-w-md leading-relaxed">
-                  Reach out for custom built dapps, on our socials.
-                </p>
+
+                <div>
+                  <h3 className="font-semibold text-[15px] text-white mb-2 flex items-center gap-2">
+
+                    Useful Links
+                  </h3>
+                  <span className="text-sm text-gray-600 space-y-1 flex flex-col">
+                    <a href="https://suiscan.xyz/testnet/home" className="text-blue-600 hover:underline flex items-center">Sui Explorer</a>
+                    <a href="https://docs.sui.io/" className="text-blue-600 hover:underline">Documentation</a>
+                    <a href="https://discord.com/invite/sui" className="text-blue-600 hover:underline">Discord Support</a>
+                  </span>
+                </div>
               </div>
 
-              {/* Social links */}
-              <div className="flex items-center gap-4">
-                <a
-                  href="https://github.com/yourusername/sui-faucet"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200/60 transition-all duration-200 hover:shadow-lg hover:scale-105 hover:bg-gradient-to-r hover:from-blue-500 hover:to-teal-500 hover:border-transparent"
-                >
-                  <FaGithub className="text-lg text-gray-700 group-hover:text-white transition-colors" />
-                  <span className="text-sm font-medium text-gray-700 group-hover:text-white">GitHub</span>
-                </a>
-                <a
-                  href="https://twitter.com/yourhandle"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200/60 transition-all duration-200 hover:shadow-lg hover:scale-105 hover:bg-gradient-to-r hover:from-blue-500 hover:to-teal-500 hover:border-transparent"
-                >
-                  <FaXTwitter className="text-lg text-gray-700 group-hover:text-white transition-colors" />
-                  <span className="text-sm font-medium text-gray-700 group-hover:text-white">Twitter</span>
-                </a>
-                <a
-                  href="https://discord.com/invite/sui"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200/60 transition-all duration-200 hover:shadow-lg hover:scale-105 hover:bg-gradient-to-r hover:from-blue-500 hover:to-teal-500 hover:border-transparent"
-                >
-                  <FaDiscord className="text-lg text-gray-700 group-hover:text-white transition-colors" />
-                  <span className="text-sm font-medium text-gray-700 group-hover:text-white">Discord</span>
-                </a>
-              </div>
 
               {/* Divider */}
               <div className="w-full max-w-xs h-px bg-gradient-to-r from-transparent via-blue-200/60 to-transparent" />
 
               {/* Bottom section */}
-              <div className="flex flex-col sm:flex-row items-center justify-between w-full max-w-4xl gap-4 text-sm text-gray-500">
+                <div className="flex flex-col sm:flex-row items-center justify-evenly w-full max-w-4xl gap-4 text-xs text-[#C0E6FF]">
                 <p className="flex-inline gap-1 text-center">
                   © 2025 Suicet. Made with
                   <span className="text-red-500 animate-pulse mx-1">♥</span>
                   for the Sui community.
                 </p>
-                <div className="flex items-center gap-6">
-                  <a href="/privacy" className="hover:text-blue-600 transition-colors hover:underline">
-                    Privacy Policy
-                  </a>
-                  <a href="/terms" className="hover:text-blue-600 transition-colors hover:underline">
-                    Terms of Service
-                  </a>
-                </div>
+               
               </div>
             </div>
           </div>
