@@ -34,7 +34,7 @@ import { useWallet } from "@suiet/wallet-kit";
 export default function Component() {
   const searchParams = useSearchParams();
   const { account } = useWallet();
- const [token, setToken] = useState<string | null>(null);
+
 
   const [walletAddress, setWalletAddress] = useState("");
   const [response, setResponse] = useState<FaucetResponse | null>(null);
@@ -76,12 +76,7 @@ export default function Component() {
     e.preventDefault();
     setLoading(true);
     setResponse(null);
-    if (!token) {
-      toast.error('Please complete the challenge');
-      setLoading(false);
-      return;
-    }
-
+   
     if (!isValidSuiAddress(walletAddress)) {
       setResponse({ error: "Invalid Sui wallet address", status: "error" });
       setLoading(false);
