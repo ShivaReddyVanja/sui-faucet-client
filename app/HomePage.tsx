@@ -32,6 +32,7 @@ import ConnectButton from "@/components/ConnectButton";
 import { useWallet } from "@suiet/wallet-kit";
 import Image from "next/image";
 import Link from "next/link";
+import { BsDot } from "react-icons/bs";
 
 export default function Component() {
   const searchParams = useSearchParams();
@@ -211,9 +212,9 @@ export default function Component() {
                   </div>
                 )}
               </Button>
-              <div className="flex justify-center text-[#4A5565] text-sm gap-2" >
-                <p>{config?.faucetAmount ?? "..."} SUI per request</p>
-                <p>{config?.maxRequestsPerWallet ?? "..."} request per {(config?.cooldownSeconds ? (config.cooldownSeconds / 3600).toFixed(0) : '24')} hrs</p>
+              <div className="flex justify-center text-[#4A5565] text-sm gap-2 mt-4" >
+                <p className="flex items-center"><BsDot className="font-black text-2xl"/>{config?.faucetAmount ?? "..."} SUI per request</p>
+                <p className="flex items-center"><BsDot className="font-black text-2xl"/>{config?.maxRequestsPerWallet ?? "..."} request per {(config?.cooldownSeconds ? (config.cooldownSeconds / 3600).toFixed(0) : '24')} hrs</p>
               </div>
 
               {/* Response Message */}
