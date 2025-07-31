@@ -30,7 +30,7 @@ import { FaucetModal } from "@/components/FaucetModal";
 import { useSearchParams } from "next/navigation";
 import ConnectButton from "@/components/ConnectButton";
 import { useWallet } from "@suiet/wallet-kit";
-import Turnstile from "@/components/Turnstile";
+
 export default function Component() {
   const searchParams = useSearchParams();
   const { account } = useWallet();
@@ -88,7 +88,7 @@ export default function Component() {
       return;
     }
 
-    const result = await requestFaucet(walletAddress,token);
+    const result = await requestFaucet(walletAddress);
     setResponse(result);
 
     if (result.status === "success") {
@@ -184,12 +184,7 @@ export default function Component() {
                   )}
                   
                 </div>
-                <div className="flex justify-center w-full">
-                  <Turnstile
-                    sitekey="0x4AAAAAABnMx00l2sgHhBYy" // Replace with your actual sitekey
-                    onVerify={(token: string) => setToken(token)}
-                  />
-                </div>
+               
                
                 {walletAddress && !isValidAddress && (
                   <p className="text-sm text-red-500 flex items-center gap-1">
