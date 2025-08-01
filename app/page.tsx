@@ -12,7 +12,6 @@ export default function Home() {
         <Suspense fallback={<SuiLoader />}>
           <Component />
         </Suspense>
-         <TokenRefreshHandler />
       </WalletProvider>
     </div>
   );
