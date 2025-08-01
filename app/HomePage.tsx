@@ -16,9 +16,9 @@ import {
   Copy,
   CheckCircle,
   AlertCircle,
-  ExternalLink,
+
 } from "lucide-react";
-import { FaExternalLinkAlt } from "react-icons/fa";
+
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -37,8 +37,6 @@ import { BsDot } from "react-icons/bs";
 export default function Component() {
   const searchParams = useSearchParams();
   const { account } = useWallet();
-
-
   const [walletAddress, setWalletAddress] = useState("");
   const [response, setResponse] = useState<FaucetResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -105,14 +103,14 @@ export default function Component() {
   };
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(135deg,_#EFF6FF_0%,_#ECFEFF_50%,_#F0FDFA_100%)] font-['Inter_Tight'] h-full flex flex-col justify-between">
+    <div className="min-h-screen bg-[linear-gradient(135deg,_#EFF6FF_0%,_#ECFEFF_50%,_#F0FDFA_100%)]  h-full flex flex-col justify-between">
 
       <div className="relative z-10 container mx-auto px-4  h-full flex-1">
         <div className="absolute inset-0 flex items-center justify-center -z-10 pointer-events-none">
           <Image
             src="/Vector.png"
             alt="Background"
-            width={580}
+            width={540}
             height={400}
             className="opacity-10 max-w-full h-auto aspect-3/4 -rotate-3"
             priority
@@ -122,15 +120,15 @@ export default function Component() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-6 mt-8">
-            <div className="font-['Inter_Tight'] ">
+            <div className="">
               <span className="flex items-center gap-4">
                 <Image src={"Group.svg"} width={120} height={40} alt="Sui text" />
-                <span className="bg-[#030F1C] text-white rounded-lg px-2 py-1 text-2xl font-['Inter_Tight']">Testnet Faucet</span>
+                <span className="bg-[#030F1C] text-white rounded-lg px-2 py-1 text-2xl ">Testnet Faucet</span>
               </span>
             </div>
 
           </div>
-          <p className="text-[15px] text-gray-600 max-w-xl mx-auto leading-relaxed font-['Inter_Tight']">
+          <p className="text-[15px] text-gray-600 max-w-xl mx-auto leading-relaxed ">
             Get free SUI tokens for testing and development on the Sui testnet. Simply enter your wallet address below to receive testnet tokens.
           </p>
 
@@ -144,7 +142,7 @@ export default function Component() {
 
                 <ConnectButton />
               </div>
-              <CardTitle className="text-2xl font-semibold text-gray-800 font-['Inter_Tight']">
+              <CardTitle className="text-2xl font-semibold text-gray-800">
                 Request Testnet Tokens
               </CardTitle>
               <CardDescription className="text-gray-600 text-sm">

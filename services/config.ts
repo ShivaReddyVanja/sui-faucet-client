@@ -1,4 +1,5 @@
 import apiClient from '@/utils/api'; 
+import axios from 'axios';
 
 export interface FaucetConfigUpdate {
   faucetAmount?: number;
@@ -33,6 +34,10 @@ export async function updateFaucetConfig(configData: FaucetConfigUpdate): Promis
   }
 }
 
+const api = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+});
+
 export async function getFaucetConfig(): Promise<{
   success: boolean;
   config: {
@@ -45,7 +50,7 @@ export async function getFaucetConfig(): Promise<{
 };
 }> {
   try {
-    const response = await apiClient.get('/admin/config');
+    const response = await api.get('/admin/config');
     return response.data;
   } catch (error: any) {
     console.error('Error fetching faucet config:', error);
