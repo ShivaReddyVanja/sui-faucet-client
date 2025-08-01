@@ -216,7 +216,8 @@ export default function Component() {
                 <p className="flex items-center"><BsDot className="font-black text-2xl"/>{config?.faucetAmount ?? "..."} SUI per request</p>
                 <p className="flex items-center"><BsDot className="font-black text-2xl"/>{config?.maxRequestsPerWallet ?? "..."} request per {(config?.cooldownSeconds ? (config.cooldownSeconds / 3600).toFixed(0) : '24')} hrs</p>
               </div>
-
+            
+              <p></p>
               {/* Response Message */}
               {response?.status === "success" && (
                 <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
